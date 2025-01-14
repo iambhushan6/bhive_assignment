@@ -2,7 +2,8 @@
 
 This assignment as per the provided problem statement, fetches realtime fund schemes, allows user to create portfolio with JWT Authentication. Tech is Python, Django, Sqlite & Celery, redis
 
-Postman collection & api documentation: https://www.postman.com/iambhushan/bhive-assignment-bhushan-lokhande/collection/m3y8fdq/bhive-assignment-bhushan-lokhande?action=share&creator=29746355
+Postman collection & api documentation: 
+https://www.postman.com/iambhushan/bhive-assignment-bhushan-lokhande/collection/m3y8fdq/bhive-assignment-bhushan-lokhande?action=share&creator=29746355
 
 Step 1:
 Clone the repository
