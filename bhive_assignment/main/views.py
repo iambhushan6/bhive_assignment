@@ -7,27 +7,15 @@ from rest_framework import status
 from main.permissions import IsOwner
 from rest_framework.permissions import IsAuthenticated
 from main.models import Portfolio, FundHouse, AMC_CODES
-from rest_framework.generics import ListAPIView, ListCreateAPIView
+from rest_framework.generics import ListAPIView, ListCreateAPIView, CreateAPIView
+from main.services import BhiveFundService
 
 # Create your views here.
 
 
-
-import requests
-
-url = "https://latest-mutual-fund-nav.p.rapidapi.com/master"
-
-querystring = {"RTA_Agent_Code":"CAMS"}
-
-
-
-# response = requests.get(url, headers=headers, params=querystring)
-
-# print(response.json())
-
 @api_view()
 def testapi(request):
-    return Response({'Bhushan':'Its Working!'})
+    return Response({'Hello':'Its Working!'})
 
 
 
@@ -58,24 +46,36 @@ class LoginAPIView(GenericAPIView):
 
 class FundHouseListAPIView(ListAPIView):
 
-    permission_classes = [ IsAuthenticated]
-    queryset = FundHouse.objects.all()
+    permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        return self.queryset or AMC_CODES
+    def get(self, request):
+        return Response(FundHouse.objects.all() or AMC_CODES, status= status.HTTP_200_OK)
 
 
-class PortfolioAPIView(ListCreateAPIView):
+class FundHouseSchemeListAPIView(GenericAPIView):
 
-    permission_classes = [ IsAuthenticated, IsOwner ]
-    serializer_class = PortfolioSerializer
-    # parser_classes = [ MultiPartParser, FormParser ]
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        amc_code = request.query_params.get("amc_code")
+        if not amc_code:
+            return Response({"Error": "Please enter amc code parameter"}, status= status.HTTP_400_BAD_REQUEST)
+        is_success, data_or_error = BhiveFundService().get_fund_house_schemes(fund_house=amc_code)
+        if not is_success:
+            return Response({"Error": data_or_error}, status= status.HTTP_400_BAD_REQUEST)
+        return Response({"data":data_or_error}, status=status.HTTP_200_OK)
+
+
+class PortfolioCreateAPIView(CreateAPIView):
     queryset = Portfolio.objects.all()
+    serializer_class = PortfolioSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
 
 
-    def perform_create(self,serializer):
-        return serializer.save()
+class PortfolioListAPIView(ListAPIView):
+    serializer_class = PortfolioSerializer
+    permission_classes = [IsAuthenticated, IsOwner]
 
     def get_queryset(self):
-        return self.queryset.filter(owner= self.request.user)
+        return Portfolio.objects.filter(user=self.request.user)
      

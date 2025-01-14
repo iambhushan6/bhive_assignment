@@ -13,10 +13,10 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User
-        fields = ['phone', 'password', 'username', 'id']
+        fields = ['email', 'password', 'username', 'id']
 
     def validate(self, attrs):
-        phone = attrs.get('phone','')
+        email = attrs.get('email','')
         username = attrs.get('username','')
         id = attrs.get('id','')
         _id = attrs.get('_id','')
@@ -30,25 +30,25 @@ class RegisterUserSerializer(serializers.ModelSerializer):
 class LoginSerializer(serializers.ModelSerializer):
 
 
-    phone = serializers.CharField()
+    email = serializers.CharField()
     password = serializers.CharField(max_length = 68, min_length = 6, write_only = True)
     authToken = serializers.CharField(max_length = 68, min_length = 6, read_only=True)
 
 
     class Meta:
         model = models.User
-        fields = ['phone', 'password', 'authToken']
+        fields = ['email', 'password', 'authToken']
 
     def validate(self, attrs):
-        phone = attrs.get('phone','')
+        email = attrs.get('email','')
         password = attrs.get('password','')
-        user = auth.authenticate( phone= phone, password= password)
+        user = auth.authenticate( email= email, password= password)
 
         if not user:
             raise AuthenticationFailed("Invalid Credentials")
 
         return {  
-            "phone": user.phone,
+            "email": user.email,
             # "username": user.username,
             'authToken': user.tokens
         }
@@ -62,5 +62,9 @@ class PortfolioSerializer(serializers.ModelSerializer):
             "scheme_name",
             "scheme_code",
             "scheme_meta_data",
-            "amount",
+            "amount"
         ]
+
+    def create(self, validated_data):
+        user = self.context['request'].user
+        return models.Portfolio.objects.create(user=user, **validated_data)
