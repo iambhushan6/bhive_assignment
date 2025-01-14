@@ -8,4 +8,8 @@ urlpatterns = [
     path('bhive/login', views.LoginAPIView.as_view(), name='login'),
 
     path('bhive/register', views.RegisterUserAPIView.as_view(), name='register'),
+
+    # path('bhive/fundschemes'),
+
+    path('bhive/portfolio')
 ]

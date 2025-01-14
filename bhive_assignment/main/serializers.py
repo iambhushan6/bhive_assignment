@@ -52,3 +52,15 @@ class LoginSerializer(serializers.ModelSerializer):
             # "username": user.username,
             'authToken': user.tokens
         }
+    
+
+class PortfolioSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = models.Portfolio
+        fields = [
+            "scheme_name",
+            "scheme_code",
+            "scheme_meta_data",
+            "amount",
+        ]
