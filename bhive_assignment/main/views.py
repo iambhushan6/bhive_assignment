@@ -19,25 +19,22 @@ url = "https://latest-mutual-fund-nav.p.rapidapi.com/master"
 
 querystring = {"RTA_Agent_Code":"CAMS"}
 
-headers = {
-    'x-rapidapi-key': "de4ca0dcf4msh2ba6ec89fa54611p163c25jsn92cad99c880b",
-    'x-rapidapi-host': "latest-mutual-fund-nav.p.rapidapi.com"
-}
+
 
 # response = requests.get(url, headers=headers, params=querystring)
 
 # print(response.json())
 
 
-AMC_CODES = {
-    BirlaSunLifeMutualFund_MF,
-    DSP_MF,
-    SBIMutualFund_MF,
-    TATAMutualFund_MF,
-    FRANKLINTEMPLETON,
-    PPFAS_MF,
-    HSBCMUTUALFUND_MF
-}
+# AMC_CODES = {
+#     BirlaSunLifeMutualFund_MF,
+#     DSP_MF,
+#     SBIMutualFund_MF,
+#     TATAMutualFund_MF,
+#     FRANKLINTEMPLETON,
+#     PPFAS_MF,
+#     HSBCMUTUALFUND_MF
+# }
 
 @api_view()
 def testapi(request):

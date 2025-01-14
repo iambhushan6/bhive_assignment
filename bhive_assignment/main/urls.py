@@ -11,5 +11,5 @@ urlpatterns = [
 
     # path('bhive/fundschemes'),
 
-    path('bhive/portfolio')
+    path('bhive/portfolio', views.PortfolioAPIView.as_view(), name='portfolio')
 ]
