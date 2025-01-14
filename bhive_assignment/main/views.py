@@ -6,7 +6,7 @@ from main.serializers import RegisterUserSerializer, LoginSerializer, PortfolioS
 from rest_framework import status
 from main.permissions import IsOwner
 from rest_framework.permissions import IsAuthenticated
-from main.models import Portfolio
+from main.models import Portfolio, FundHouse, AMC_CODES
 from rest_framework.generics import ListAPIView, ListCreateAPIView
 
 # Create your views here.
@@ -24,17 +24,6 @@ querystring = {"RTA_Agent_Code":"CAMS"}
 # response = requests.get(url, headers=headers, params=querystring)
 
 # print(response.json())
-
-
-# AMC_CODES = {
-#     BirlaSunLifeMutualFund_MF,
-#     DSP_MF,
-#     SBIMutualFund_MF,
-#     TATAMutualFund_MF,
-#     FRANKLINTEMPLETON,
-#     PPFAS_MF,
-#     HSBCMUTUALFUND_MF
-# }
 
 @api_view()
 def testapi(request):
@@ -66,6 +55,15 @@ class LoginAPIView(GenericAPIView):
         
         return Response(serializer.data, status= status.HTTP_200_OK)
     
+
+class FundHouseListAPIView(ListAPIView):
+
+    permission_classes = [ IsAuthenticated]
+    queryset = FundHouse.objects.all()
+
+    def get_queryset(self):
+        return self.queryset or AMC_CODES
+
 
 class PortfolioAPIView(ListCreateAPIView):
 

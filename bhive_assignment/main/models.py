@@ -5,6 +5,17 @@ from rest_framework_simplejwt.tokens import RefreshToken
 # Create your models here.
 
 
+
+AMC_CODES = {
+    "BirlaSunLifeMutualFund_MF",
+    "DSP_MF",
+    "SBIMutualFund_MF",
+    "TATAMutualFund_MF",
+    "FRANKLINTEMPLETON",
+    "PPFAS_MF",
+    "HSBCMUTUALFUND_MF"
+}
+
 class UserManager(BaseUserManager):
 
     def create_user(self, username, email,  password=None):

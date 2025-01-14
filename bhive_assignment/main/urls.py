@@ -9,7 +9,9 @@ urlpatterns = [
 
     path('bhive/register', views.RegisterUserAPIView.as_view(), name='register'),
 
-    # path('bhive/fundschemes'),
+    path('bhive/fundhouses', views.FundHouseListAPIView.as_view(), name='fund_houses'),
+
+    path('bhive/fundhouse-schemes', views.FundHouseListAPIView.as_view(), name='fund_house_schemes'),
 
     path('bhive/portfolio', views.PortfolioAPIView.as_view(), name='portfolio')
 ]
